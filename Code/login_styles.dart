@@ -1,10 +1,10 @@
-// ignore_for_file: prefer_const_declarations
+// ignore_for_file: prefer_const_declarations, prefer_const_constructors
 
 import 'package:flutter/material.dart';
 
 // Define your colors
-final Color primaryColor = Colors.green[900]!;
-final Color hintColor = Colors.green[900]!;
+final Color primaryColor = Color(0xFFA63446);
+final Color hintColor = Colors.black;
 final Color textColor = Colors.black;
 
 // Define text styles
