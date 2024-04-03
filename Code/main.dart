@@ -1,7 +1,10 @@
+// ignore_for_file: prefer_const_constructors
+
+import 'package:bahrain_showroom/homepage.dart';
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'signup.dart'; // Import the sign-up page file
 import 'login_styles.dart'; // Import your styles
-import 'homepage.dart'; // Import the home page file
 
 void main() {
   runApp(LoginApp());
@@ -51,7 +54,8 @@ class _LoginPageState extends State<LoginPage> {
               Center(
                 child: Text(
                   'Login',
-                  style: titleStyle, // Use defined title style
+                  style: titleStyle.copyWith(
+                      fontSize: 28), // Increase the font size
                 ),
               ),
               SizedBox(height: 20),
@@ -64,7 +68,7 @@ class _LoginPageState extends State<LoginPage> {
                     borderRadius: BorderRadius.circular(15.0),
                     borderSide: BorderSide(color: Colors.black),
                   ),
-                  prefixIcon: Icon(Icons.account_circle),
+                  prefixIcon: Icon(FontAwesomeIcons.userTag),
                 ),
               ),
               SizedBox(height: 20),
@@ -77,7 +81,7 @@ class _LoginPageState extends State<LoginPage> {
                     borderRadius: BorderRadius.circular(15.0),
                     borderSide: BorderSide(color: Colors.black),
                   ),
-                  prefixIcon: Icon(Icons.vpn_key),
+                  prefixIcon: Icon(FontAwesomeIcons.lock),
                 ),
                 obscureText: true,
               ),
@@ -89,7 +93,9 @@ class _LoginPageState extends State<LoginPage> {
                     String username = _usernameController.text;
                     String password = _passwordController.text;
                     print('Username: $username\nPassword: $password');
-                    // Navigate to the home page
+                    // You can add your login logic here
+
+                    // Navigate to the HomePage
                     Navigator.push(
                       context,
                       MaterialPageRoute(builder: (context) => HomePage()),
