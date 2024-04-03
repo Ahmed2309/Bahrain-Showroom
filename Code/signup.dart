@@ -1,7 +1,10 @@
-// ignore_for_file: use_key_in_widget_constructors, prefer_const_constructors, sort_child_properties_last
+// ignore_for_file: prefer_const_constructors
 
+import 'dart:math';
 import 'package:flutter/material.dart';
-import 'signup_styles.dart'; // Import your styles
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:twilio_flutter/twilio_flutter.dart';
+import 'signup_styles.dart';
 
 void main() {
   runApp(SignUpApp());
@@ -14,9 +17,8 @@ class SignUpApp extends StatelessWidget {
       title: 'Sign Up',
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
-        primaryColor: primaryColor,
-        hintColor: hintColor,
-      ),
+          // Your theme data
+          ),
       home: SignUpPage(),
     );
   }
@@ -33,8 +35,10 @@ class _SignUpPageState extends State<SignUpPage> {
   TextEditingController _passwordController = TextEditingController();
   TextEditingController _confirmPasswordController = TextEditingController();
   TextEditingController _phoneNumberController = TextEditingController();
+  TextEditingController _otpController = TextEditingController();
 
   bool _agreeToTerms = false;
+  String _otp = '';
 
   @override
   Widget build(BuildContext context) {
@@ -43,7 +47,7 @@ class _SignUpPageState extends State<SignUpPage> {
         title: Text('Bahrain Showroom'),
         centerTitle: true,
         leading: IconButton(
-          icon: Icon(Icons.arrow_back),
+          icon: Icon(FontAwesomeIcons.arrowLeft),
           color: Colors.black,
           onPressed: () {
             Navigator.of(context).pop();
@@ -62,80 +66,100 @@ class _SignUpPageState extends State<SignUpPage> {
                 Text(
                   'Create an Account',
                   textAlign: TextAlign.center,
-                  style: titleStyle, // Use defined title style
+                  style: titleStyle,
                 ),
                 SizedBox(height: 20),
-                TextFormField(
-                  controller: _usernameController,
-                  decoration: InputDecoration(
-                    hintText: 'Username',
-                    hintStyle: hintTextStyle, // Use defined hint text style
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(15.0),
-                      borderSide: BorderSide(color: Colors.black),
+                Container(
+                  padding: EdgeInsets.symmetric(vertical: 10, horizontal: 10),
+                  decoration: BoxDecoration(
+                    border: Border.all(color: Colors.grey),
+                    borderRadius: BorderRadius.circular(15.0),
+                  ),
+                  child: TextFormField(
+                    controller: _usernameController,
+                    decoration: InputDecoration(
+                      hintText: 'Username',
+                      hintStyle: hintTextStyle,
+                      prefixIcon: Icon(FontAwesomeIcons.user),
+                      border: InputBorder.none,
                     ),
-                    prefixIcon: Icon(Icons.account_circle),
                   ),
                 ),
-                SizedBox(height: 16.0),
-                TextFormField(
-                  controller: _emailController,
-                  decoration: InputDecoration(
-                    hintText: 'Email',
-                    hintStyle: hintTextStyle, // Use defined hint text style
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(15.0),
-                      borderSide: BorderSide(color: Colors.black),
-                    ),
-                    prefixIcon: Icon(Icons.email),
+                SizedBox(height: 20),
+                Container(
+                  padding: EdgeInsets.symmetric(vertical: 10, horizontal: 10),
+                  decoration: BoxDecoration(
+                    border: Border.all(color: Colors.grey),
+                    borderRadius: BorderRadius.circular(15.0),
                   ),
-                  keyboardType: TextInputType.emailAddress,
-                ),
-                SizedBox(height: 16.0),
-                TextFormField(
-                  controller: _passwordController,
-                  decoration: InputDecoration(
-                    hintText: 'Password',
-                    hintStyle: hintTextStyle, // Use defined hint text style
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(15.0),
-                      borderSide: BorderSide(color: Colors.black),
+                  child: TextFormField(
+                    controller: _emailController,
+                    decoration: InputDecoration(
+                      hintText: 'Email',
+                      hintStyle: hintTextStyle,
+                      prefixIcon: Icon(FontAwesomeIcons.envelope),
+                      border: InputBorder.none,
                     ),
-                    prefixIcon: Icon(Icons.vpn_key),
+                    keyboardType: TextInputType.emailAddress,
                   ),
-                  obscureText: true,
                 ),
-                SizedBox(height: 16.0),
-                TextFormField(
-                  controller: _confirmPasswordController,
-                  decoration: InputDecoration(
-                    hintText: 'Confirm Password',
-                    hintStyle: hintTextStyle, // Use defined hint text style
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(15.0),
-                      borderSide: BorderSide(color: Colors.black),
+                SizedBox(height: 20),
+                Container(
+                  padding: EdgeInsets.symmetric(vertical: 10, horizontal: 10),
+                  decoration: BoxDecoration(
+                    border: Border.all(color: Colors.grey),
+                    borderRadius: BorderRadius.circular(15.0),
+                  ),
+                  child: TextFormField(
+                    controller: _passwordController,
+                    decoration: InputDecoration(
+                      hintText: 'Password',
+                      hintStyle: hintTextStyle,
+                      prefixIcon: Icon(FontAwesomeIcons.lock),
+                      border: InputBorder.none,
                     ),
-                    prefixIcon: Icon(Icons.vpn_key),
+                    obscureText: true,
                   ),
-                  obscureText: true,
                 ),
-                SizedBox(height: 16.0),
-                TextFormField(
-                  controller: _phoneNumberController,
-                  decoration: InputDecoration(
-                    hintText: 'Phone Number',
-                    hintStyle: hintTextStyle, // Use defined hint text style
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(15.0),
-                      borderSide: BorderSide(color: Colors.black),
+                SizedBox(height: 20),
+                Container(
+                  padding: EdgeInsets.symmetric(vertical: 10, horizontal: 10),
+                  decoration: BoxDecoration(
+                    border: Border.all(color: Colors.grey),
+                    borderRadius: BorderRadius.circular(15.0),
+                  ),
+                  child: TextFormField(
+                    controller: _confirmPasswordController,
+                    decoration: InputDecoration(
+                      hintText: 'Confirm Password',
+                      hintStyle: hintTextStyle,
+                      prefixIcon: Icon(FontAwesomeIcons.lock),
+                      border: InputBorder.none,
                     ),
-                    prefixIcon: Icon(Icons.phone),
+                    obscureText: true,
                   ),
-                  keyboardType: TextInputType.phone,
                 ),
-                SizedBox(height: 16.0),
+                SizedBox(height: 20),
+                Container(
+                  padding: EdgeInsets.symmetric(vertical: 10, horizontal: 10),
+                  decoration: BoxDecoration(
+                    border: Border.all(color: Colors.grey),
+                    borderRadius: BorderRadius.circular(15.0),
+                  ),
+                  child: TextFormField(
+                    controller: _phoneNumberController,
+                    decoration: InputDecoration(
+                      hintText: 'Phone Number',
+                      hintStyle: hintTextStyle,
+                      prefixIcon: Icon(FontAwesomeIcons.phone),
+                      border: InputBorder.none,
+                    ),
+                    keyboardType: TextInputType.phone,
+                  ),
+                ),
+                SizedBox(height: 20),
                 Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
+                  mainAxisAlignment: MainAxisAlignment.start,
                   children: [
                     Checkbox(
                       value: _agreeToTerms,
@@ -145,12 +169,11 @@ class _SignUpPageState extends State<SignUpPage> {
                         });
                       },
                       checkColor: Colors.white,
-                      activeColor: primaryColor,
+                      activeColor: Colors.blue,
                     ),
                     Text(
                       'I agree to the terms and conditions',
                       style: TextStyle(
-                        color: textColor,
                         fontSize: 16,
                       ),
                     ),
@@ -158,60 +181,17 @@ class _SignUpPageState extends State<SignUpPage> {
                 ),
                 SizedBox(height: 32.0),
                 ElevatedButton(
-                  onPressed: () {
-                    // Implement your sign-up logic here
-                    String username = _usernameController.text;
-                    String email = _emailController.text;
-                    String password = _passwordController.text;
-                    String confirmPassword = _confirmPasswordController.text;
+                  onPressed: () async {
                     String phoneNumber = _phoneNumberController.text;
-
-                    // Validate inputs before proceeding
-                    // Implement your validation logic here
-
-                    // Check if the user has agreed to terms
-                    if (_agreeToTerms) {
-                      // Proceed with sign-up if inputs are valid and terms are agreed
-                      print('Username: $username');
-                      print('Email: $email');
-                      print('Password: $password');
-                      print('Confirm Password: $confirmPassword');
-                      print('Phone Number: $phoneNumber');
+                    if (phoneNumber.isNotEmpty) {
+                      await _sendOTP(phoneNumber);
+                      _showOTPDialog();
                     } else {
-                      // Show an alert or message indicating that terms must be agreed
-                      showDialog(
-                        context: context,
-                        builder: (context) {
-                          return AlertDialog(
-                            title: Text('Terms and Conditions'),
-                            content: Text(
-                                'Please agree to the terms and conditions.'),
-                            actions: [
-                              TextButton(
-                                onPressed: () {
-                                  Navigator.pop(context);
-                                },
-                                child: Text('OK'),
-                              ),
-                            ],
-                          );
-                        },
-                      );
+                      print('Please enter phone number');
                     }
                   },
-                  child: SizedBox(
-                    height: 60,
-                    child: Center(
-                      child: Text(
-                        'Register Account',
-                        style: TextStyle(
-                          fontFamily: 'RobotoSerif',
-                          fontSize: 17,
-                        ),
-                      ),
-                    ),
-                  ),
-                  style: elevatedButtonStyle, // Use defined button style
+                  style: elevatedButtonStyle,
+                  child: Text('Register'),
                 ),
               ],
             ),
@@ -219,5 +199,78 @@ class _SignUpPageState extends State<SignUpPage> {
         ),
       ),
     );
+  }
+
+  Future<void> _showOTPDialog() async {
+    return showDialog<void>(
+      context: context,
+      barrierDismissible: false,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text('Enter OTP'),
+          content: TextFormField(
+            controller: _otpController,
+            decoration: InputDecoration(
+              hintText: 'Enter OTP',
+              hintStyle: hintTextStyle,
+            ),
+          ),
+          actions: <Widget>[
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+              child: Text('Cancel'),
+            ),
+            ElevatedButton(
+              onPressed: () {
+                String enteredOTP = _otpController.text;
+                if (_verifyOTP(enteredOTP)) {
+                  print('OTP verified successfully');
+                  Navigator.of(context).pop();
+                } else {
+                  print('Invalid OTP');
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(
+                      content: Text('Invalid OTP. Please try again.'),
+                      duration: Duration(seconds: 2),
+                    ),
+                  );
+                }
+              },
+              style: elevatedButtonStyle,
+              child: Text('Verify'),
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+  Future<void> _sendOTP(String phoneNumber) async {
+    String otp = _generateOTP();
+    final TwilioFlutter twilioFlutter = TwilioFlutter(
+      accountSid: '', //Authorization ID
+      authToken: '', // Authorization token
+      twilioNumber: '', // Sending number
+    );
+
+    await twilioFlutter.sendSMS(
+      toNumber: "", //Receiving number
+      messageBody: 'Your OTP is $otp',
+    );
+
+    setState(() {
+      _otp = otp;
+    });
+  }
+
+  String _generateOTP() {
+    Random random = Random();
+    return (100000 + random.nextInt(900000)).toString();
+  }
+
+  bool _verifyOTP(String enteredOTP) {
+    return enteredOTP == _otp;
   }
 }
